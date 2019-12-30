@@ -18,6 +18,9 @@ import java.util.Arrays;
 public class MarkdownUtil {
 
     public static String md2Html(String content){
+        if(StringUtils.isEmpty(content)){
+            return "";
+        }
         MutableDataSet options = new MutableDataSet();
         options.setFrom(ParserEmulationProfile.MARKDOWN);
         options.set(Parser.EXTENSIONS, Arrays.asList(new Extension[] { TablesExtension.create()}));

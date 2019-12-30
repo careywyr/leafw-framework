@@ -37,7 +37,7 @@ public class JwtFilter extends OncePerRequestFilter {
                 Claims claims = (Claims) Jwts.parser().setSigningKey(JwtUtil.generalKey(secret)).parseClaimsJws(authHeader).getBody();
                 UserToken user = new UserToken();
                 user.setUserId(Long.valueOf(claims.getSubject()));
-                user.setData((Map)claims.get("datas", Map.class));
+                user.setData((Map)claims);
                 user.setToken(authHeader);
                 UserContext.setToken(user);
             } catch (Exception e) {

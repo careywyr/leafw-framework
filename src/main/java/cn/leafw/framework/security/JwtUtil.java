@@ -28,7 +28,7 @@ public class JwtUtil {
      * @param secret 密钥
      * @return jwt
      */
-    public static String createJwt(String userId, long ttlMillis, String secret) {
+    public static String createJwt(String userId, long ttlMillis, String secret, Map<String, String> userMap) {
         //指定签名的时候使用的签名算法，也就是header那部分，jjwt已经将这部分内容封装好了。
         SignatureAlgorithm signatureAlgorithm = SignatureAlgorithm.HS256;
         //生成JWT的时间
@@ -36,9 +36,12 @@ public class JwtUtil {
         Date now = new Date(nowMillis);
         //创建payload的私有声明（根据特定的业务需要添加，如果要拿这个做验证，一般是需要和jwt的接收方提前沟通好验证方式的）
         Map<String, Object> claims = new HashMap<String, Object>();
-        claims.put("uid", "DSSFAWDWADAS...");
-        claims.put("user_name", "admin");
-        claims.put("nick_name", "DASDA121");
+        for (Map.Entry<String, String> userMapEntry : userMap.entrySet()) {
+            claims.put(userMapEntry.getKey(), userMapEntry.getValue());
+        }
+//        claims.put("uid", "DSSFAWDWADAS...");
+//        claims.put("user_name", "admin");
+//        claims.put("nick_name", "DASDA121");
         //生成签名的时候使用的秘钥secret,这个方法本地封装了的，一般可以从本地配置文件中读取，切记这个秘钥不能外露哦。它就是你服务端的私钥，在任何场景都不应该流露出去。一旦客户端得知这个secret, 那就意味着客户端是可以自我签发jwt了。
         SecretKey key = generalKey(secret);
         //下面就是在为payload添加各种标准声明和私有声明了
