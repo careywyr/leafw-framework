@@ -42,6 +42,7 @@ public class JwtFilter extends OncePerRequestFilter {
                 UserContext.setToken(user);
             } catch (Exception e) {
                 log.error("invalid token: {}", authHeader, e);
+                httpServletResponse.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
             }
         }
         boolean verify = true;
