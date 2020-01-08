@@ -14,7 +14,7 @@ public class ResultHelper<T> {
         return new ResultDTO(false, msg);
     }
 
-    public static <T> ResultDTO returnOk(T data){
+    public static <T> ResultDTO<T> returnOk(T data){
         return new ResultDTO<T>(data);
     }
 

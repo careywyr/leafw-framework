@@ -24,6 +24,16 @@ public class BaseServiceImpl<T> implements BaseService<T> {
     }
 
     @Override
+    public List<T> select(T t) {
+        return baseMapper.select(t);
+    }
+
+    @Override
+    public int selectCount(T t) {
+        return baseMapper.selectCount(t);
+    }
+
+    @Override
     public int updateByPrimaryKey(T t) {
         return baseMapper.updateByPrimaryKeySelective(t);
     }
@@ -34,8 +44,18 @@ public class BaseServiceImpl<T> implements BaseService<T> {
     }
 
     @Override
+    public int delete(T t) {
+        return baseMapper.delete(t);
+    }
+
+    @Override
     public int insert(T t) {
         return baseMapper.insertSelective(t);
+    }
+
+    @Override
+    public List<T> selectAll(){
+        return baseMapper.selectAll();
     }
 
 }

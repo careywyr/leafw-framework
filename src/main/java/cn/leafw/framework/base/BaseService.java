@@ -18,6 +18,15 @@ public interface BaseService<T> {
     T selectByPrimaryKey(Object id);
 
     /**
+     * 查询
+     * @param t t
+     * @return T
+     */
+    List<T> select(T t);
+
+    int selectCount(T t);
+
+    /**
      * 根据主键更新
      * @param t t
      * @return int
@@ -32,10 +41,24 @@ public interface BaseService<T> {
     int deleteByPrimaryKey(Object id);
 
     /**
+     * 删除
+     * @param t t
+     * @return int
+     */
+    int delete(T t);
+
+    /**
      * 保存
      * @param t t
      * @return int
      */
     int insert(T t);
+
+    /**
+     * 查询全部
+     * @return 所有数据
+     */
+    List<T> selectAll();
+
 }
 
