@@ -5,6 +5,7 @@ import cn.leafw.framework.utils.WebUtils;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
@@ -26,15 +27,17 @@ import java.util.Map;
 @Slf4j
 public class JwtFilter extends OncePerRequestFilter {
 
-    @Value("${security.jwt.secret}")
-    private String secret;
+//    @Value("${security.jwt.secret}")
+//    private String secret;
+    @Autowired
+    private SecurityProperties securityProperties;
 
     @Override
     protected void doFilterInternal(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, FilterChain filterChain) throws ServletException, IOException {
         String authHeader = httpServletRequest.getHeader("Authorization");
         if (StringUtils.hasText(authHeader)) {
             try {
-                Claims claims = (Claims) Jwts.parser().setSigningKey(JwtUtil.generalKey(secret)).parseClaimsJws(authHeader).getBody();
+                Claims claims = (Claims) Jwts.parser().setSigningKey(JwtUtil.generalKey(securityProperties.getJwtSecret())).parseClaimsJws(authHeader).getBody();
                 UserToken user = new UserToken();
                 user.setUserId(Long.valueOf(claims.getSubject()));
                 user.setData((Map)claims);
@@ -48,7 +51,7 @@ public class JwtFilter extends OncePerRequestFilter {
         boolean verify = true;
         String currentPath = WebUtils.resolutionUrl(httpServletRequest.getRequestURI(), httpServletRequest.getContextPath());
         log.info("currentPath: {}", currentPath);
-        if(currentPath.contains("login")){
+        if(currentPath.contains("login") || currentPath.contains("test")){
             verify = false;
         }
         if(verify && StringUtils.isEmpty(authHeader)){
