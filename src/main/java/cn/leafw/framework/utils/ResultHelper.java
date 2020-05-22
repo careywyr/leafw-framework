@@ -10,12 +10,12 @@ import cn.leafw.framework.dto.ResultDTO;
  */
 public class ResultHelper<T> {
 
-    public static ResultDTO returnFalse(String msg){
-        return new ResultDTO(false, msg);
+    public static <T> ResultDTO<T> returnFalse(String msg){
+        return new ResultDTO<>(false, msg);
     }
 
     public static <T> ResultDTO<T> returnOk(T data){
-        return new ResultDTO<T>(data);
+        return new ResultDTO<>(data);
     }
 
 }
